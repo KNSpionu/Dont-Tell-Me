@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        @keyframes backgroundAnimation {
+            0% { background-color: pink; }
+            50% { background-color: #ff99cc; }
+            100% { background-color: pink; }
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            animation: backgroundAnimation 4s infinite alternate;
+            background-image: url('https://i.pinimg.com/originals/8e/d6/1f/8ed61f3f6cbb89c4f04db68963d5be2a.gif');
+            background-size: cover;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        button {
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #yes {
+            background-color: #ff4d4d;
+            color: white;
+            animation: glow 1.5s infinite alternate, buttonPulse 2s infinite;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ff4d4d; }
+            100% { box-shadow: 0 0 20px #ff1a1a; }
+        }
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        #no {
+            background-color: #666;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        #video-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .floating-emoji {
+            position: absolute;
+            animation: floatUp 5s infinite ease-in-out;
+            font-size: 30px;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Will you be my Valentine? ❤️</h2>
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+        <div id="video-container">
+            <iframe id="valentine-video" width="560" height="315" src="" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+        </div>
+    </div>
+    <script>
+        let noButton = document.getElementById("no");
+        let yesButton = document.getElementById("yes");
+        let videoContainer = document.getElementById("video-container");
+        let videoFrame = document.getElementById("valentine-video");
+        let clickCount = 0;
+
+        yesButton.addEventListener("click", function() {
+            videoFrame.src = "https://www.youtube.com/embed/B177wdQ77fU?start=33&autoplay=1&controls=0&modestbranding=1&fs=0&rel=0";
+            videoContainer.style.display = "block";
+        });
+
+        noButton.addEventListener("click", function() {
+            clickCount++;
+            if (clickCount === 1) {
+                noButton.innerText = "Try Again!";
+                noButton.style.transform = "scale(0.9)";
+            } else if (clickCount === 2) {
+                noButton.innerText = "Error, not found";
+                noButton.style.transform = "scale(0.7)";
+            } else if (clickCount === 3) {
+                noButton.style.display = "none";
+                yesButton.innerText = "I would love to be your Valentine!";
+                yesButton.style.backgroundColor = "green";
+                yesButton.style.fontSize = "22px";
+                yesButton.style.padding = "15px 30px";
+                yesButton.addEventListener("click", function() {
+                    videoFrame.src = "https://www.youtube.com/embed/B177wdQ77fU?start=33&autoplay=1&controls=0&modestbranding=1&fs=0&rel=0";
+                    videoContainer.style.display = "block";
+                });
+            }
+        });
+
+        function createFloatingEmoji() {
+            const emojiList = ['🐶', '🐱', '💖', '💕', '🎀', '🎉', '🌹', '🥰', '❤️', '💞'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('floating-emoji');
+            emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.top = '100vh';
+            emoji.style.fontSize = Math.random() * 20 + 20 + 'px';
+            emoji.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(emoji);
+            setTimeout(() => { emoji.remove(); }, 5000);
+        }
+        setInterval(createFloatingEmoji, 300);
+    </script>
+</body>
+</html>
